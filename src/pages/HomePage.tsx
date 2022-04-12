@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+import { ethers } from "ethers";
+
 const HomePage = () => {
   return (
     <div className="container-fluid">
