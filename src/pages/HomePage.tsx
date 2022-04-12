@@ -1,11 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { ethers } from "ethers";
+import { Metamask } from "../models/metamask";
 
-const HomePage = () => {
+const HomePage = (props: { metamask: Metamask }) => {
+  const [address, setAddress]: [string, Dispatch<SetStateAction<string>>] =
+    useState("");
+  const [balance, setBalance]: [number, Dispatch<SetStateAction<number>>] =
+    useState(0);
+
+  useEffect(() => {
+    props.metamask.signer.getAddress().then((address) => {
+      setAddress(address);
+    });
+    props.metamask.signer.getBalance().then((balance) => {
+      const formattedBalance = Number.parseFloat(
+        ethers.utils.formatUnits(balance, 18)
+      );
+      setBalance(formattedBalance);
+    });
+  });
   return (
     <div className="container-fluid">
       <div>
-        <h1>home page</h1>
+        <p>{address}</p>
+        <p>{balance}</p>
       </div>
     </div>
   );

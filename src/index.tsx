@@ -1,6 +1,13 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import App from "./App";
+import {
+  Mainnet,
+  DAppProvider,
+  useEtherBalance,
+  useEthers,
+  Config,
+} from "@usedapp/core";
 // scss
 import "./style/global.scss";
 import "./style/customStyle.scss";
@@ -8,9 +15,12 @@ import "./style/customStyle.scss";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-ReactDOM.render(
+const container = document.getElementById("root") as Element;
+const root = createRoot(container);
+root.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
+    <DAppProvider config={{}}>
+      <App />
+    </DAppProvider>
+  </React.StrictMode>
 );
