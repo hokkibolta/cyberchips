@@ -1,12 +1,5 @@
-import {
-  Mainnet,
-  DAppProvider,
-  useEtherBalance,
-  useEthers,
-  Config,
-} from "@usedapp/core";
-
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useEtherBalance, useEthers, Kovan } from "@usedapp/core";
 import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
 import { ethers } from "ethers";
@@ -47,7 +40,7 @@ function App() {
   //     setMetamask(metamask);
   //   });
   // }, [selectedAccount]);
-  
+
   return (
     <div className="App">
       <Navbar />
