@@ -2,3 +2,9 @@
 @import "~bootstrap/scss/bootstrap.scss";
 
 // Override default bootstrap styles
+
+// button
+.btn {
+  border-radius: 50rem;
+  color: white !important;
+}

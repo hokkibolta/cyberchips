@@ -1,12 +1,32 @@
+import { useEffect, useState } from "react";
 import { useEthers } from "@usedapp/core";
 import ProfileModalBody from "./ProfileModalBody";
+import { formatEther } from "@ethersproject/units";
+import { getAccountBalance } from "./../CyberChipsMethodHandler";
 
 const Navbar = () => {
-  const { activateBrowserWallet, account, chainId, deactivate, active } =
+  const { activateBrowserWallet, account, chainId, deactivate, library } =
     useEthers();
+  const [accountBalance, setAccountBalance] = useState(0);
+
+  const init = async () => {
+    try {
+      if (account) {
+        const accountBalance = await getAccountBalance(library, account);
+        setAccountBalance(accountBalance);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    init().then();
+  }, [account]);
+
   return (
     <header>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand navbar-light bg-light">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
             logo
@@ -30,7 +50,7 @@ const Navbar = () => {
                     onClick={() => {
                       activateBrowserWallet();
                     }}
-                    className="btn btn-primary text-white"
+                    className="btn btn-primary"
                   >
                     Connect
                   </button>
@@ -39,11 +59,14 @@ const Navbar = () => {
                   <div>
                     <button
                       type="button"
-                      className="btn btn-primary text-white"
+                      className="btn btn-primary"
                       data-bs-toggle="modal"
                       data-bs-target="#exampleModal"
                     >
                       {account.slice(0, 5)}...{account.slice(38 - 42)}
+                      {accountBalance && (
+                        <div>{accountBalance.toString().slice(0, 6)} ETH</div>
+                      )}
                     </button>
                     {/* Profile Modal */}
                     <div
@@ -72,14 +95,14 @@ const Navbar = () => {
                           <div className="modal-footer">
                             <button
                               type="button"
-                              className="btn btn-secondary text-white"
+                              className="btn btn-secondary"
                               data-bs-dismiss="modal"
                             >
                               Close
                             </button>
                             <button
                               type="button"
-                              className="btn btn-danger text-white"
+                              className="btn btn-danger"
                               data-bs-dismiss="modal"
                               onClick={() => {
                                 deactivate();
@@ -96,7 +119,7 @@ const Navbar = () => {
               </li>
               {account && (
                 <li className="nav-item mx-2">
-                  <button className="btn btn-danger text-white">
+                  <button className="btn btn-danger opacity-100" disabled>
                     {chainId === 42 && <div>Kovan</div>}
                     {chainId !== 42 && <div>Please connect to Kovan</div>}
                   </button>
