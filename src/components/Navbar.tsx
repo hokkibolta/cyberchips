@@ -2,7 +2,8 @@ import { useEthers } from "@usedapp/core";
 import ProfileModalBody from "./ProfileModalBody";
 
 const Navbar = () => {
-  const { activateBrowserWallet, account, chainId } = useEthers();
+  const { activateBrowserWallet, account, chainId, deactivate, active } =
+    useEthers();
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -44,6 +45,7 @@ const Navbar = () => {
                     >
                       {account.slice(0, 5)}...{account.slice(38 - 42)}
                     </button>
+                    {/* Profile Modal */}
                     <div
                       className="modal fade"
                       id="exampleModal"
@@ -70,10 +72,20 @@ const Navbar = () => {
                           <div className="modal-footer">
                             <button
                               type="button"
-                              className="btn btn-secondary"
+                              className="btn btn-secondary text-white"
                               data-bs-dismiss="modal"
                             >
                               Close
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-danger text-white"
+                              data-bs-dismiss="modal"
+                              onClick={() => {
+                                deactivate();
+                              }}
+                            >
+                              Disconnect
                             </button>
                           </div>
                         </div>
@@ -82,12 +94,14 @@ const Navbar = () => {
                   </div>
                 )}
               </li>
-              <li className="nav-item mx-2">
-                <button className="btn btn-danger text-white">
-                  {chainId === 42 && <div>Kovan</div>}
-                  {chainId !== 42 && <div>Please connect to Kovan</div>}
-                </button>
-              </li>
+              {account && (
+                <li className="nav-item mx-2">
+                  <button className="btn btn-danger text-white">
+                    {chainId === 42 && <div>Kovan</div>}
+                    {chainId !== 42 && <div>Please connect to Kovan</div>}
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
         </div>

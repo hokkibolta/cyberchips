@@ -1,4 +1,3 @@
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useEtherBalance, useEthers, Kovan } from "@usedapp/core";
 import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
